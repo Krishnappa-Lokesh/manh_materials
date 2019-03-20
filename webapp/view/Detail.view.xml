@@ -1,0 +1,81 @@
+<mvc:View xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:semantic="sap.m.semantic" xmlns:footerbar="sap.ushell.ui.footerbar" controllerName="manh.controller.Detail">
+	<semantic:DetailPage id="page" navButtonPress="onNavBack" showNavButton="{device>/system/phone}" title="{i18n>detailTitle}" busy="{detailView>/busy}" busyIndicatorDelay="{detailView>/delay}">
+		<semantic:content>
+			<ObjectHeader responsive="true" fullScreenOptimized="true" backgroundDesign="Translucent" title="{Description}" number="{Material}" id="__item11">
+				<attributes>
+					<ObjectAttribute text="{BaseUnit}" id="__attribute7" title="Base UOM"/>
+					<ObjectAttribute text="{Mfrpn}" id="__attribute6" title="Mfr Part #"/>
+					<ObjectAttribute text="{UPCCode}" id="__attribute6_copy" title="UPC Code"/>
+					<ObjectAttribute text="{= ${Stocked} ? 'No' : 'Yes' }" id="__attribute6_copy1" title="Stocked Item"/>
+				</attributes>
+			</ObjectHeader>
+			<Panel id="__panel0" backgroundDesign="Translucent">
+				<content>
+					<CheckBox id="__box0" text="Lot Controlled" selected="{LotControl}" editable="false"/>
+					<CheckBox id="__box0_copy" text="Serialized" selected="{Serialized}" editable="false"/>
+					<CheckBox id="__box0_copy2" text="Recalled" selected="{Recalled}" editable="false"/>
+					<CheckBox id="__box0_copy3" text="Box or Corrogated" selected="{BoxCorgtd}" editable="false"/>
+					<CheckBox id="__box0_copy4" text="Reserved" selected="{Reserved}" editable="false"/>
+				</content>
+			</Panel>
+			
+			<!-- Uoms Table -->
+			<Table id="materialUomsList" width="auto" items="{uoms}" updateFinished="onListUpdateFinished" noDataText="{i18n>detailLineItemTableNoDataText}" busyIndicatorDelay="{detailView>/lineItemTableDelay}" class="sapUiResponsiveMargin">
+				<headerToolbar>
+					<Toolbar id="lineItemsToolbar">
+						<Title id="lineItemsHeader" text="{detailView>/lineItemListTitle}"/>
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column>
+						<Text text="X"/>
+					</Column>
+					<Column minScreenWidth="Phone">
+						<Text text="AUn"/>
+					</Column>
+					<Column minScreenWidth="Phone" demandPopin="true">
+						<Text text="Y"/>
+					</Column>
+					<Column minScreenWidth="Phone">
+						<Text text="BUn"/>
+					</Column>
+					<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline"  hAlign="End">
+						<Text text="Loose"/>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<ObjectNumber number="{Denominator}"/>
+							<ObjectIdentifier title="{AltUOM}"/>
+							<ObjectNumber number="{Numerator}"/>
+							<ObjectIdentifier title="{BaseUOM}"/>
+
+							<Select xmlns:sap.ui.core="sap.ui.core" selectedKey="{TreatAsLoose}" id="selectTreatAsLooseId">
+							    <items>
+							        <sap.ui.core:ListItem text="Yes" key="Y" id="item1"/>
+							        <sap.ui.core:ListItem text="No" key="N" id="item2"/>
+							        <sap.ui.core:ListItem text="No Override" key="X" id="item3"/></items>
+							</Select>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</semantic:content>
+		<semantic:sendEmailAction>
+			<semantic:SendEmailAction id="shareEmail" press="onShareEmailPress"/>
+		</semantic:sendEmailAction>
+		<semantic:shareInJamAction>
+			<semantic:ShareInJamAction id="shareInJam" visible="{FLP>/isShareInJamActive}" press="onShareInJamPress"/>
+		</semantic:shareInJamAction>
+		<semantic:saveAsTileAction>
+			<footerbar:AddBookmarkButton id="shareTile" title="{detailView>/saveAsTileTitle}"/>
+		</semantic:saveAsTileAction>
+		<semantic:saveAction>
+			<semantic:SaveAction id="saveButton" press="onSave"/>
+		</semantic:saveAction>
+		<semantic:cancelAction>
+			<semantic:CancelAction id="cancelButton" press="onCancel"/>
+		</semantic:cancelAction>
+	</semantic:DetailPage>
+</mvc:View>
